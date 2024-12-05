@@ -1,35 +1,39 @@
-import List "mo:base/List";
-import Option "mo:base/Option";
-import Trie "mo:base/Trie";
-import Nat32 "mo:base/Nat32";
-actor Superheroes{
-  public type SuperheroId=Nat32;
+using System;
 
-  public type Superhero={
-    name:Text;
-    superpowers:List.List<Text>;
-  };
-  private stable var next:SuperheroId=0;
-  private stable var superheroes:Trie.Trie<SuperheroId,Superhero> =Trie.empty();
-  public func create (superhero:Superhero):async SuperheroId{
-let superheroId=next;
+actor hesap_makinesi
+{
+    var hucre: Int = 0;
+  //toplama 
+  public func toplama(s: Int) : async Int
+{
+    hucre += s;
+    hucre
+ 
+};
+//çıkarma 
+public func cikarma(s: Int) : async Int
+{
+    hucre -= s;
+    hucre
+};
+//çarpma 
+public func carpma(s: Int) : async Int
+{
+    hucre *= s;
+    hucre
+};
+//bölme 
+public func bolme(s: Int) : async? Int
+{
+    if(s == 0){
+        null
+    }else{
+        hucre /= s;
+      ?hucre
+    };
+};
 
-next +=1;
-superheroes :=Trie.replace(
-  superheroes,
-  key(superheroId),
-  Nat32.equal,
-  ?superhero
-).0;
-return superheroId;
-  };
-
-  public query func read(superheroId:SuperheroId):async ?Superhero{
-    let result=Trie.find(superheroes,key(superheroId),Nat32.equal);
-    return result
-  };
-
-  private func key(x:SuperheroId):Trie.Key<SuperheroId>{
-    return {hash=x; key=x}
-  }
-}
+public func temizle() : async() {
+hucre:= 0;
+};
+};
